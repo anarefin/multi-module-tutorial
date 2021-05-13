@@ -1,0 +1,28 @@
+rootProject.name = 'multi-module-tutorial'
+
+include "main-application" // Include Main Application
+
+
+// Include Application Modules into project
+String modulePath = "${applicationModules}"
+File modulePathFile = file(modulePath)
+if (modulePathFile.exists()) {
+    modulePathFile.list().each { name ->
+        if (name != "empty") {
+            include(name)
+            project(":${name}").projectDir = file(modulePath + name)
+        }
+    }
+}
+
+// Include External/Other Modules into project
+modulePath = "${otherModules}"
+modulePathFile = file(modulePath)
+if (modulePathFile.exists()) {
+    modulePathFile.list().each { name ->
+        if (name != "empty") {
+            include(name)
+            project(":${name}").projectDir = file(modulePath + name)
+        }
+    }
+}
